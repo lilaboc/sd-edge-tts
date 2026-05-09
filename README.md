@@ -1,29 +1,42 @@
 # sd-edge-tts
+
 Speech dispatcher module that uses Microsoft Edge's TTS service as backend.
 
-By default only english is configured, but you can modify ``./speech-dispatcher/edge-tts-generic.conf`` and add any other language.
-
-Check available languages/voices by running ``edge-tts --list-voices``
+Supports Chinese (Mandarin, Cantonese, Taiwanese), Japanese, Korean, and English out of the box. Add any other language by editing `speech-dispatcher/modules/edge-tts-generic.conf` — see available voices with `edge-tts --list-voices`.
 
 ## Dependencies
 
-1. **speech-dispatcher** package installed and properly configured (socket activation enabled, etc).
-2. **mpv** installed (used by default as the backend to play audio).
-3. [**edge-tts**](https://github.com/rany2/edge-tts) Python module installed and available in `PATH`.
+1. **speech-dispatcher** — installed and configured (socket activation enabled, etc.)
+2. **mpv** — audio playback backend
+3. [**edge-tts**](https://github.com/rany2/edge-tts) — Python package, available in `PATH`
 
 ## Installation
 
-1. Clone or download this repository.  
-2. Copy the `speech-dispatcher` folder into your home config directory.
-3. Restart Speech Dispatcher (kill it, then start again).
-
-Once the folder is in ~/.config, the module should start working immediately.
+1. Clone or download this repository.
+2. Copy the `speech-dispatcher` folder to `~/.config/`:
+   ```bash
+   cp -r speech-dispatcher ~/.config/
+   ```
+3. Restart Speech Dispatcher:
+   ```bash
+   killall speech-dispatcher
+   speech-dispatcher &
+   ```
 
 ## Verification
-- Open Firefox, enable Reader Mode on any article, and check that TTS playback works.
-- Or run a test in the terminal:
 
-    ```bash
-    spd-say "Hello, this is a test using Microsoft Edge TTS."
-    ```
-And you should hear the text spoken.
+```bash
+# Test Chinese
+spd-say -o edge-tts-generic -l zh "你好世界"
+
+# Test English
+spd-say -o edge-tts-generic "Hello, this is Edge TTS."
+
+# Test Japanese
+spd-say -o edge-tts-generic -l ja "こんにちは"
+
+# List all available voices
+edge-tts --list-voices
+```
+
+Open Firefox, enable Reader Mode on any article, and TTS should work through the default module.
